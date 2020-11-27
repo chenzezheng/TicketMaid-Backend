@@ -1,2 +1,2 @@
-# Ticket-Maid
+# TicketMaid
  A Ticket Management System
