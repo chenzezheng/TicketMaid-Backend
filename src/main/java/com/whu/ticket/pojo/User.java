@@ -14,10 +14,7 @@ public class User {
     private int is_admin;
 
     public UserVO toValueObject() {
-        UserVO vo = new UserVO();
-        vo.setId(id);
-        vo.setNickname(nickname);
-        vo.setUsername(username);
+        UserVO vo = new UserVO(id, username, nickname, sex, email);
         return vo;
     }
 }
