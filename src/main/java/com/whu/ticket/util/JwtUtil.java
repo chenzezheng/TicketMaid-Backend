@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.whu.ticket.pojo.User;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -43,12 +44,15 @@ public class JwtUtil {
     }
 
     public static boolean verifyToken(String token) {
+        if (StringUtils.isBlank(token)) {
+            throw new RuntimeException("无token，请重新登录");
+        }
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             DecodedJWT jwt = verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("token 无效，请重新获取");
+            throw new RuntimeException("token无效，请重新获取");
         }
     }
 }
