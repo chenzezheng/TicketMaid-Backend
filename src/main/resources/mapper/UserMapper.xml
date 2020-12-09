@@ -8,6 +8,9 @@
         <result column="username" property="username"/>
         <result column="nickname" property="nickname"/>
         <result column="password" property="password"/>
+        <result column="sex" property="sex"/>
+        <result column="email" property="email"/>
+        <result column="is_admin" property="is_admin"/>
     </resultMap>
 
     <select id="selectById" resultMap="BaseUserMap">
