@@ -4,6 +4,7 @@ import com.whu.ticket.annotation.AdminLogin;
 import com.whu.ticket.annotation.UserLogin;
 import com.whu.ticket.service.UserService;
 import com.whu.ticket.util.JwtUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.web.method.HandlerMethod;
@@ -20,14 +21,14 @@ public class AuthInterceptor implements HandlerInterceptor {
     UserService userService;
 
     private boolean check(String token) {
-        if (token == null) {
+        if (StringUtils.isBlank(token)) {
             throw new RuntimeException("无token，请重新登录");
         }
         return JwtUtil.verifyToken(token);
     }
 
     private boolean isAdmin(String token) {
-        if (token == null) {
+        if (StringUtils.isBlank(token)) {
             throw new RuntimeException("无token，请重新登录");
         }
         if (JwtUtil.verifyToken(token)) {
