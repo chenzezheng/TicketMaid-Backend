@@ -1,15 +1,16 @@
 package com.whu.ticket.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.whu.ticket.annotation.UserLogin;
 import com.whu.ticket.pojo.Result;
+import com.whu.ticket.pojo.User;
 import com.whu.ticket.service.UserService;
+import com.whu.ticket.util.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,36 +23,78 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/register")
+    @PostMapping("/register")
     public Result register(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String nickname = request.getParameter("nickname");
-//        userService.register();
-        log.info("register fail");
-        Result result = new Result(-1, null, "未知错误");
-        return result;
+        User user = new User();
+        user.setPassword(password);
+        user.setNickname(username);
+        user.setUsername(username);
+        user.setSex(2);
+        try {
+            userService.register(user);
+            return new Result(0, user.toValueObject(), "注册成功");
+        } catch(Exception e) {
+            log.info("register fail");
+            return new Result(-1, null, e.getMessage());
+        }
     }
 
     @PostMapping("/login")
-    public Object login(HttpServletRequest request) {
+    public Result login(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-//        log.info("login username: {} password: {}", username, password);
+        log.info("login username: {} password: {}", username, password);
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             log.info("login fail");
-            Result result = new Result(-1, null, "用户名或密码为空");
-            return result;
+            return new Result(-1, null, "用户名或密码为空");
         }
 
-        boolean res = userService.login(username, password);
-        if (res) {
+        User res = userService.login(username, password);
+        if (res != null) {
             log.info("login success");
-            Result result = new Result(0, null, "登录成功");
-            return result;
+            final long seven_days = 604800000;
+            final long two_hours = 7200000;
+            String access_token = JwtUtil.createToken(String.valueOf(res.getId()), two_hours);
+            String refresh_token = JwtUtil.createToken(String.valueOf(res.getId()), seven_days);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("access_token", access_token);
+            jsonObject.put("refresh_token", refresh_token);
+            jsonObject.put("user", res.toValueObject());
+            return new Result(0, jsonObject, "登录成功");
         }
         log.info("login fail");
-        Result result = new Result(-1, null, "未知错误");
-        return result;
+        return new Result(-1, null, "用户名或密码错误");
+    }
+
+    @UserLogin
+    @PutMapping("/modify/profile")
+    public Result modifyProfile(HttpServletRequest request) {
+        String token = request.getHeader("access_token");
+        int userId = JwtUtil.getUserID(token);
+        String nickname = request.getParameter("nickname");
+        String sex = request.getParameter("sex");
+        String email = request.getParameter("email");
+        User newUser = new User();
+        newUser.setId(userId);
+        newUser.setNickname(nickname);
+        newUser.setSex(Integer.parseInt(sex));
+        newUser.setEmail(email);
+        userService.modifyProfile(newUser);
+        return new Result(0, null, "修改资料成功");
+    }
+
+    @UserLogin
+    @PutMapping("/modify/password")
+    public Result modifyPassword(HttpServletRequest request) {
+        String token = request.getHeader("access_token");
+        int userId = JwtUtil.getUserID(token);
+        String newPassword = request.getParameter("password");
+        User newUser = new User();
+        newUser.setId(userId);
+        newUser.setPassword(newPassword);
+        userService.modifyPassword(newUser);
+        return new Result(0, null, "修改密码成功");
     }
 }

@@ -18,9 +18,22 @@
         select * from user where username = #{username}
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into user(username, password, nickname)
-        values (#{username}, #{password}, #{nickname})
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username, password, nickname, sex)
+        values (#{username}, #{password}, #{nickname}, #{sex})
     </insert>
+    
+    <update id="updateUserPassword" >
+        update user set
+            password = #{password}
+        where id = #{id}
+    </update>
 
+    <update id="updateUserProfile" >
+        update user set
+            nickname = #{nickname},
+            sex = #{sex},
+            email = #{email}
+        where id = #{id}
+    </update>
 </mapper>

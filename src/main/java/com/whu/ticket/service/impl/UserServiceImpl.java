@@ -4,6 +4,7 @@ import com.whu.ticket.dao.UserMapper;
 import com.whu.ticket.pojo.User;
 import com.whu.ticket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,15 +13,38 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
         User user = userMapper.selectByUsername(username);
-        if (user == null) return false;
-        if (password.equals(user.getPassword())) return true;
-        return false;
+        if (user == null) return null;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(password));
+            userMapper.updateUserPassword(user);
+            return user;
+        };
+        return null;
     }
 
     @Override
-    public void register(User user) {
-        userMapper.insert(user);
+    public void register(User user) throws Exception {
+        User res = userMapper.selectByUsername(user.getUsername());
+        if (res != null) {
+            throw new Exception("用户名已存在");
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userMapper.insertUser(user);
+    }
+
+    @Override
+    public void modifyProfile(User user) {
+        userMapper.updateUserProfile(user);
+    }
+
+    @Override
+    public void modifyPassword(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userMapper.updateUserPassword(user);
     }
 }
