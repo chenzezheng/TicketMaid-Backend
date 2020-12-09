@@ -8,4 +8,5 @@ public interface UserService {
     public void register(User user) throws Exception;
     public void modifyProfile(User user);
     public void modifyPassword(User user);
+    public boolean isAdmin(int userId);
 }

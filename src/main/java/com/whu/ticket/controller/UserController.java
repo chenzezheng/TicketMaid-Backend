@@ -1,6 +1,7 @@
 package com.whu.ticket.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.whu.ticket.annotation.AdminLogin;
 import com.whu.ticket.annotation.UserLogin;
 import com.whu.ticket.pojo.Result;
 import com.whu.ticket.pojo.User;

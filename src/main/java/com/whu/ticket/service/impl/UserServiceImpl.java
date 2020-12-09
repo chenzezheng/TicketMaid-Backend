@@ -26,10 +26,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(User user) throws Exception {
+    public void register(User user) {
         User res = userMapper.selectByUsername(user.getUsername());
         if (res != null) {
-            throw new Exception("用户名已存在");
+            throw new RuntimeException("用户名已存在");
         }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -46,5 +46,12 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userMapper.updateUserPassword(user);
+    }
+
+    @Override
+    public boolean isAdmin(int userId) {
+        User res = userMapper.selectById(userId);
+        if (res != null && res.getIs_admin() == 1) return true;
+        throw new RuntimeException("无操作权限");
     }
 }
