@@ -1,5 +1,6 @@
 package com.whu.ticket.controller;
 
+import com.whu.ticket.VO.FavoriteVO;
 import com.whu.ticket.annotation.UserLogin;
 import com.whu.ticket.pojo.Favorite;
 import com.whu.ticket.pojo.Result;
@@ -33,7 +34,7 @@ public class FavoriteController {
         if (pageNo <= 0 || pageSize <= 0) {
             return new Result(-1, null, "参数错误");
         }
-        List<Favorite> favorites = favoriteService.queryFavorites(userId, pageNo, pageSize);
+        List<FavoriteVO> favorites = favoriteService.queryFavorites(userId, pageNo, pageSize);
         return new Result(0, favorites, "查询收藏成功");
     }
 
@@ -59,8 +60,10 @@ public class FavoriteController {
     @UserLogin
     @DeleteMapping("/remove")
     public Result removeFavorite(HttpServletRequest request) {
+        String token = request.getHeader("access_token");
+        int userId = JwtUtil.getUserID(token);
         int id = Integer.parseInt(request.getParameter("id"));
-        favoriteService.removeFavorite(id);
+        favoriteService.removeFavorite(id, userId);
         return new Result(0, null, "取消收藏成功");
     }
 }

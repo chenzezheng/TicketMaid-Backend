@@ -31,8 +31,9 @@
         values (#{user_id}, #{event_id}, #{time})
     </insert>
 
-    <delete id="deleteById">
-        delete from favorite where id = #{id}
+    <delete id="deleteByIdAndUserId">
+        delete from favorite
+        where id = #{id} and user_id = #{user_id}
     </delete>
 
 </mapper>

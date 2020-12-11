@@ -1,5 +1,6 @@
 package com.whu.ticket.service.impl;
 
+import com.whu.ticket.VO.FavoriteVO;
 import com.whu.ticket.dao.FavoriteMapper;
 import com.whu.ticket.pojo.Favorite;
 import com.whu.ticket.service.FavoriteService;
@@ -14,7 +15,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     FavoriteMapper favoriteMapper;
 
     @Override
-    public List<Favorite> queryFavorites(int userId, int pageNo, int pageSize) {
+    public List<FavoriteVO> queryFavorites(int userId, int pageNo, int pageSize) {
         return favoriteMapper.selectByUserId(userId, (pageNo - 1) * pageSize, pageSize);
     }
 
@@ -28,7 +29,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
-    public void removeFavorite(int id) {
-        favoriteMapper.deleteById(id);
+    public void removeFavorite(int id, int userId) {
+        favoriteMapper.deleteByIdAndUserId(id, userId);
     }
 }
