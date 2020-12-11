@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whu.ticket.dao.EventMapper">
+    <resultMap id="BaseEventMap" type="com.whu.ticket.pojo.Event">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="host_id" property="host_id"/>
+        <result column="time" property="time"/>
+        <result column="location" property="location"/>
+        <result column="quota" property="quota"/>
+        <result column="info" property="info"/>
+        <result column="cover" property="cover"/>
+        <result column="price" property="price"/>
+    </resultMap>
+
+    <insert id="insertEvent" useGeneratedKeys="true" keyProperty="id">
+        insert into event(name,host_id,quota,time,location,info,cover,price)
+        values(#{name},#{host_id},#{quota},#{time},#{location},#{info},#{cover},#{price})
+    </insert>
+
+    <delete id="deleteEvent">
+        delete from event where id = #{id}
+    </delete>
+
+    <select id="selectByName" resultMap="BaseEventMap">
+        select * from event where name = #{name}
+    </select>
+
+    <select id="selectById" resultMap="BaseEventMap">
+        select * from event where id = #{id}
+    </select>
+
+    <select id="selectAllEvent" resultMap="BaseEventMap">
+        select * from event
+        where time > #{time}
+        limit #{offset},#{limit}
+    </select>
+
+    <update id="updateEventProfile">
+        update event set
+            time = #{time},
+            quota = #{quota},
+            location = #{location},
+            info = #{info},
+            cover = #{cover}
+        where id = #{id}
+    </update>
+</mapper>
