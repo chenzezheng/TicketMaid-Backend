@@ -1,6 +1,5 @@
 package com.whu.ticket.service;
 
-import com.whu.ticket.VO.UserVO;
 import com.whu.ticket.pojo.User;
 
 public interface UserService {

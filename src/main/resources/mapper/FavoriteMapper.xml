@@ -10,14 +10,25 @@
         <result column="time" property="time"/>
     </resultMap>
 
+    <resultMap id="BaseFavoriteVOMap" type="com.whu.ticket.vo.FavoriteVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="event_id" property="event_id"/>
+        <result column="time" property="time"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="cover" property="cover"/>
+    </resultMap>
+
     <select id="countByUserId" resultType="integer">
         select count(*) from favorite
         where user_id = #{userId}
     </select>
 
-    <select id="selectByUserId" resultMap="BaseFavoriteMap">
-        select * from favorite
-        where user_id = #{userId}
+    <select id="selectByUserId" resultMap="BaseFavoriteVOMap">
+        select f.id, f.user_id, f.event_id, f.time, e.name, e.price, e.cover
+        from favorite f, event e
+        where f.user_id = #{userId} and f.event_id = e.id
         limit #{offset}, #{limit}
     </select>
 

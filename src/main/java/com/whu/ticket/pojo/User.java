@@ -1,6 +1,6 @@
 package com.whu.ticket.pojo;
 
-import com.whu.ticket.VO.UserVO;
+import com.whu.ticket.vo.UserVO;
 import lombok.Data;
 
 @Data

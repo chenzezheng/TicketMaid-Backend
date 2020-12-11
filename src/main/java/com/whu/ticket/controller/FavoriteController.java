@@ -1,6 +1,6 @@
 package com.whu.ticket.controller;
 
-import com.whu.ticket.VO.FavoriteVO;
+import com.whu.ticket.vo.FavoriteVO;
 import com.whu.ticket.annotation.UserLogin;
 import com.whu.ticket.pojo.Favorite;
 import com.whu.ticket.pojo.Result;

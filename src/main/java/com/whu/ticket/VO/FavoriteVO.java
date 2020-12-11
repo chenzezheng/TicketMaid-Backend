@@ -1,4 +1,4 @@
-package com.whu.ticket.VO;
+package com.whu.ticket.vo;
 
 import lombok.Data;
 
