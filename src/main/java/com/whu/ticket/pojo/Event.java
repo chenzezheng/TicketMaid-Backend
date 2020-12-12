@@ -15,5 +15,5 @@ public class Event {
     private int quota;
     private String info;
     private String cover;
-    private BigDecimal price;
+    private double price;
 }

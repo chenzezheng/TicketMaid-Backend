@@ -43,8 +43,7 @@ public class EventController {
         String location = request.getParameter("location");
         String info = request.getParameter("info");
         String cover = request.getParameter("cover");
-        String tmp = request.getParameter("price");
-        BigDecimal price = new BigDecimal(tmp);
+        double price = Double.parseDouble(request.getParameter("price"));
         Event event = new Event();
         event.setName(name);
         event.setHost_id(host_id);
