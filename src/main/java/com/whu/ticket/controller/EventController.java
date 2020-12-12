@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,25 +24,31 @@ public class EventController {
     @Autowired
     EventService eventService;
 
+    private Date parseTime(String strTime) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(StringUtils.isBlank(strTime)) return null;
+        else return sdf.parse(strTime);
+    }
+
     @AdminLogin
     @PostMapping("/add")
     public Result addEvent(HttpServletRequest request) throws ParseException {
         String name = request.getParameter("name");
         int host_id = Integer.parseInt(request.getParameter("host_id"));
         int quota = Integer.parseInt(request.getParameter("quota"));
-        String res = request.getParameter("time");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date time;
-        if(StringUtils.isBlank(res)){
-            time = null;
-        }
-        else{
-            time = sdf.parse(res);
-        }
+        String strTime = request.getParameter("time");
+        String strPrice = request.getParameter("price");
         String location = request.getParameter("location");
         String info = request.getParameter("info");
         String cover = request.getParameter("cover");
-        double price = Double.parseDouble(request.getParameter("price"));
+        Date time;
+        double price;
+        try {
+            time = parseTime(strTime);
+            price = Double.parseDouble(strPrice);
+        } catch (ParseException e) {
+            return new Result(-1, null, e.getMessage());
+        }
         Event event = new Event();
         event.setName(name);
         event.setHost_id(host_id);
@@ -63,7 +68,7 @@ public class EventController {
     }
 
     @AdminLogin
-    @DeleteMapping("delete")
+    @DeleteMapping("/remove")
     public Result deleteEvent(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
         try {
@@ -76,7 +81,7 @@ public class EventController {
     }
 
 
-    @GetMapping("All")
+    @GetMapping("/query")
     public Result queryEvent(HttpServletRequest request){
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
@@ -90,26 +95,28 @@ public class EventController {
     public Result modifyEventProfile(HttpServletRequest request) throws ParseException {
         int newQuota = Integer.parseInt(request.getParameter("quota"));
         int id = Integer.parseInt(request.getParameter("id"));
-        String res = request.getParameter("time");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date newTime;
-        if(StringUtils.isBlank(res)){
-            newTime = null;
-        }
-        else{
-            newTime = sdf.parse(res);
-        }
+        String strTime = request.getParameter("time");
+        String strPrice = request.getParameter("price");
         String newLocation = request.getParameter("location");
         String newInfo = request.getParameter("info");
         String newCover = request.getParameter("cover");
+        Date newTime;
+        double newPrice;
+        try {
+            newTime = parseTime(strTime);
+            newPrice = Double.parseDouble(strPrice);
+        } catch (ParseException e) {
+            return new Result(-1, null, e.getMessage());
+        }
         Event newEvent = new Event();
         newEvent.setId(id);
         newEvent.setQuota(newQuota);
         newEvent.setCover(newCover);
         newEvent.setInfo(newInfo);
         newEvent.setTime(newTime);
+        newEvent.setPrice(newPrice);
         newEvent.setLocation(newLocation);
-        eventService.modifyEventProfile(newEvent);
+        eventService.modifyEvent(newEvent);
         return new Result(0,null,"修改活动信息成功");
     }
 }

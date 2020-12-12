@@ -44,7 +44,8 @@
             quota = #{quota},
             location = #{location},
             info = #{info},
-            cover = #{cover}
+            cover = #{cover},
+            price = #{price}
         where id = #{id}
     </update>
 </mapper>

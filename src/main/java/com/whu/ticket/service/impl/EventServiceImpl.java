@@ -40,7 +40,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void modifyEventProfile(Event event) {
+    public void modifyEvent(Event event) {
         Event res = eventMapper.selectById(event.getId());
         if(res != null) {
             eventMapper.updateEventProfile(event);

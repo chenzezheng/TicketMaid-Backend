@@ -9,5 +9,5 @@ public interface EventService {
     public void addEvent(Event event) throws Exception;
     public void deleteEvent(int id) throws Exception;
     public List<Event> queryEvent(Date time,int pageNo,int pageSize);
-    public void modifyEventProfile(Event event);
+    public void modifyEvent(Event event);
 }
