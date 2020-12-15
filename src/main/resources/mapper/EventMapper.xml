@@ -21,7 +21,7 @@
     </insert>
 
     <delete id="deleteEvent">
-        delete from event where id = #{id}
+        delete from event where id = #{id} and host_id = #{host_id}
     </delete>
 
     <select id="selectByName" resultMap="BaseEventMap">
@@ -38,6 +38,12 @@
         limit #{offset},#{limit}
     </select>
 
+    <select id="selectByHostID" resultMap="BaseEventMap">
+        select * from event
+        where host_id = #{host_id}
+        limit #{offset},#{limit}
+    </select>
+
     <update id="updateEventProfile">
         update event set
             time = #{time},
@@ -46,6 +52,6 @@
             info = #{info},
             cover = #{cover},
             price = #{price}
-        where id = #{id}
+        where id = #{id} and host_id = #{host_id}
     </update>
 </mapper>

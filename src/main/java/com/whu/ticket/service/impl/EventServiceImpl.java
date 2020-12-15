@@ -25,10 +25,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void deleteEvent(int id) {
+    public void deleteEvent(int id,int host_id) {
         Event res = eventMapper.selectById(id);
         if(res != null) {
-            eventMapper.deleteEvent(id);
+            eventMapper.deleteEvent(id,host_id);
             return;
         }
         throw new RuntimeException("无对应活动");
@@ -47,5 +47,10 @@ public class EventServiceImpl implements EventService {
             return;
         }
         throw new RuntimeException("无对应活动");
+    }
+
+    @Override
+    public List<Event> queryAdminEvent(int host_id, int pageNo, int pageSize) {
+        return eventMapper.selectByHostID(host_id,(pageNo-1)*pageSize,pageSize);
     }
 }

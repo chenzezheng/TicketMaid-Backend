@@ -1,9 +1,11 @@
 package com.whu.ticket.controller;
 
 import com.whu.ticket.annotation.AdminLogin;
+import com.whu.ticket.annotation.UserLogin;
 import com.whu.ticket.pojo.Event;
 import com.whu.ticket.pojo.Result;
 import com.whu.ticket.service.EventService;
+import com.whu.ticket.util.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +34,10 @@ public class EventController {
 
     @AdminLogin
     @PostMapping("/add")
-    public Result addEvent(HttpServletRequest request) throws ParseException {
+    public Result addEvent(HttpServletRequest request)  {
         String name = request.getParameter("name");
-        int host_id = Integer.parseInt(request.getParameter("host_id"));
+        String token = request.getHeader("access_token");
+        int host_id = JwtUtil.getUserID(token);
         int quota = Integer.parseInt(request.getParameter("quota"));
         String strTime = request.getParameter("time");
         String strPrice = request.getParameter("price");
@@ -71,8 +74,10 @@ public class EventController {
     @DeleteMapping("/remove")
     public Result deleteEvent(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
+        String token = request.getHeader("access_token");
+        int host_id = JwtUtil.getUserID(token);
         try {
-            eventService.deleteEvent(id);
+            eventService.deleteEvent(id,host_id);
             return new Result(0, null, "删除活动成功");
         } catch (Exception e) {
             log.info("deleteEvent fail");
@@ -92,8 +97,10 @@ public class EventController {
 
     @AdminLogin
     @PutMapping("/modify")
-    public Result modifyEventProfile(HttpServletRequest request) throws ParseException {
+    public Result modifyEventProfile(HttpServletRequest request) {
         int newQuota = Integer.parseInt(request.getParameter("quota"));
+        String token = request.getHeader("access_token");
+        int host_id = JwtUtil.getUserID(token);
         int id = Integer.parseInt(request.getParameter("id"));
         String strTime = request.getParameter("time");
         String strPrice = request.getParameter("price");
@@ -109,6 +116,7 @@ public class EventController {
             return new Result(-1, null, e.getMessage());
         }
         Event newEvent = new Event();
+        newEvent.setHost_id(host_id);
         newEvent.setId(id);
         newEvent.setQuota(newQuota);
         newEvent.setCover(newCover);
@@ -118,5 +126,16 @@ public class EventController {
         newEvent.setLocation(newLocation);
         eventService.modifyEvent(newEvent);
         return new Result(0,null,"修改活动信息成功");
+    }
+
+    @AdminLogin
+    @GetMapping("/AdminQuery")
+    public Result queryAdminEvent(HttpServletRequest request){
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        String token = request.getHeader("access_token");
+        int host_id = JwtUtil.getUserID(token);
+        eventService.queryAdminEvent(host_id,pageNo,pageSize);
+        return new Result(0,eventService.queryAdminEvent(host_id,pageNo,pageSize),"查询成功");
     }
 }
