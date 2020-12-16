@@ -1,6 +1,7 @@
 package com.whu.ticket.interceptor;
 
 import com.whu.ticket.annotation.AdminLogin;
+import com.whu.ticket.annotation.RefreshToken;
 import com.whu.ticket.annotation.UserLogin;
 import com.whu.ticket.service.UserService;
 import com.whu.ticket.util.JwtUtil;
@@ -28,19 +29,18 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     private boolean isAdmin(String token) {
-        if (StringUtils.isBlank(token)) {
-            throw new RuntimeException("无token，请重新登录");
-        }
-        if (JwtUtil.verifyToken(token)) {
-            int userId = JwtUtil.getUserID(token);
-            return userService.isAdmin(userId);
-        }
-        return false;
+        int userId = JwtUtil.getUserID(token);
+        return userService.isAdmin(userId);
+    }
+
+    private boolean isRefresh(String token) {
+        return JwtUtil.getTokenType(token).equals("refresh");
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("access_token");
+        String access_token = request.getHeader("access_token");
+        String refresh_token = request.getHeader("refresh_token");
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
@@ -48,10 +48,13 @@ public class AuthInterceptor implements HandlerInterceptor {
         Method method = handlerMethod.getMethod();
         if (method.isAnnotationPresent(UserLogin.class)) {
             UserLogin userLogin = method.getAnnotation(UserLogin.class);
-            if (userLogin.required()) return check(token);
+            if (userLogin.required()) return check(access_token);
         } else if (method.isAnnotationPresent(AdminLogin.class)) {
             AdminLogin adminLogin = method.getAnnotation(AdminLogin.class);
-            if (adminLogin.required()) return isAdmin(token);
+            if (adminLogin.required()) return (check(access_token) && isAdmin(access_token));
+        } else if (method.isAnnotationPresent(RefreshToken.class)) {
+            RefreshToken refreshToken = method.getAnnotation(RefreshToken.class);
+            if (refreshToken.required()) return (check(refresh_token) && isRefresh(refresh_token));
         }
         return true;
     }

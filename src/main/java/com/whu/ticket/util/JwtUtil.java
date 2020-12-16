@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.whu.ticket.pojo.User;
 import org.apache.commons.lang3.StringUtils;
@@ -17,12 +18,13 @@ public class JwtUtil {
     private static Algorithm algorithm = Algorithm.HMAC256(SECRET);
     private static JWTVerifier verifier = JWT.require(algorithm).build();
 
-    public static String createToken(String userId, long expire) {
+    public static String createToken(String userId, long expire, String type) {
         try {
             Date date = new Date(System.currentTimeMillis() + expire);
             String token = JWT.create()
                     .withAudience(userId)
                     .withExpiresAt(date)
+                    .withClaim("token_type", type)
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
@@ -40,6 +42,16 @@ public class JwtUtil {
         } catch (JWTDecodeException exception) {
             System.out.print(exception.getMessage());
             return 0;
+        }
+    }
+
+    public static String getTokenType(String token) {
+        try {
+            String token_type = JWT.decode(token).getClaim("token_type").asString();
+            return token_type;
+        } catch (JWTDecodeException exception) {
+            System.out.print(exception.getMessage());
+            return null;
         }
     }
 

@@ -57,8 +57,8 @@ public class UserController {
             log.info("login success");
             final long seven_days = 604800000;
             final long two_hours = 7200000;
-            String access_token = JwtUtil.createToken(String.valueOf(res.getId()), two_hours);
-            String refresh_token = JwtUtil.createToken(String.valueOf(res.getId()), seven_days);
+            String access_token = JwtUtil.createToken(String.valueOf(res.getId()), two_hours, "access");
+            String refresh_token = JwtUtil.createToken(String.valueOf(res.getId()), seven_days, "refresh");
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("access_token", access_token);
             jsonObject.put("refresh_token", refresh_token);
