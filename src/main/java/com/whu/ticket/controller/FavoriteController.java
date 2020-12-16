@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/favorite")
+@RequestMapping("/api/favorite")
 public class FavoriteController {
 
     private static final Logger log = LoggerFactory.getLogger(FavoriteController.class);

@@ -19,7 +19,7 @@ import java.util.Date;
 
 
 @RestController
-@RequestMapping("/event")
+@RequestMapping("/api/event")
 public class EventController {
     private  static final Logger log = LoggerFactory.getLogger(EventController.class);
 

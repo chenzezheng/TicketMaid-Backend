@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/api/token")
 public class TokenController {
     @GetMapping("/refresh")
     public Result refresh(HttpServletRequest request) {
