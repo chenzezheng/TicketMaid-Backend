@@ -1,5 +1,6 @@
 package com.whu.ticket.controller;
 
+import com.whu.ticket.annotation.UserLogin;
 import com.whu.ticket.entity.Favorite;
 import com.whu.ticket.entity.Order;
 import com.whu.ticket.pojo.Result;
@@ -26,6 +27,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
+    @UserLogin
     @PostMapping("/add")
     public Result addOrder(HttpServletRequest request) {
         String token = request.getHeader("access_token");
@@ -50,10 +52,12 @@ public class OrderController {
             orderService.addOrder(order);
             return new Result(0, order, "添加订单成功");
         } catch (Exception e) {
+            e.printStackTrace();
             return new Result(-1, null, e.getMessage());
         }
     }
 
+    @UserLogin
     @DeleteMapping("/remove")
     public Result removeOrder(HttpServletRequest request) {
         String token = request.getHeader("access_token");
@@ -63,6 +67,7 @@ public class OrderController {
         return new Result(0, null, "删除订单成功");
     }
 
+    @UserLogin
     @GetMapping("/pages")
     public Result queryPages(HttpServletRequest request) {
         String token = request.getHeader("access_token");
@@ -72,6 +77,7 @@ public class OrderController {
         return new Result(0, nums, "查询页数成功");
     }
 
+    @UserLogin
     @GetMapping("/query")
     public Result queryOrder(HttpServletRequest request) {
         String token = request.getHeader("access_token");
@@ -82,6 +88,7 @@ public class OrderController {
         return new Result(0, orders, "查询订单列表成功");
     }
 
+    @UserLogin
     @GetMapping("/info")
     public Result queryOrderInfo(HttpServletRequest request) {
         String token = request.getHeader("access_token");
