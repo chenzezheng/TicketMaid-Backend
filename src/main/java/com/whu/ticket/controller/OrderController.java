@@ -52,7 +52,7 @@ public class OrderController {
             orderService.addOrder(order);
             return new Result(0, order, "添加订单成功");
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return new Result(-1, null, e.getMessage());
         }
     }

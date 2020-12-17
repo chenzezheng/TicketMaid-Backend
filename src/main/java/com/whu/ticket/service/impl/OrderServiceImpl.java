@@ -1,5 +1,7 @@
 package com.whu.ticket.service.impl;
 
+import com.whu.ticket.dao.EventMapper;
+import com.whu.ticket.dao.EventRedisDao;
 import com.whu.ticket.dao.OrderMapper;
 import com.whu.ticket.entity.Order;
 import com.whu.ticket.service.OrderService;
@@ -14,8 +16,19 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper orderMapper;
 
+    @Autowired
+    EventRedisDao eventRedisDao;
+
+    @Autowired
+    EventMapper eventMapper;
+
     @Override
     public void addOrder(Order order) {
+        Integer quota = eventRedisDao.getQuota(order.getEvent_id());
+        if (quota != null && quota < order.getQuantity()) {
+            throw new RuntimeException("名额不足");
+        }
+        eventRedisDao.incQuota(order.getEvent_id(), -order.getQuantity());
         orderMapper.insertOrder(order);
     }
 

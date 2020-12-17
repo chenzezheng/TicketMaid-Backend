@@ -1,6 +1,7 @@
 package com.whu.ticket.service.impl;
 
 import com.whu.ticket.dao.EventMapper;
+import com.whu.ticket.dao.EventRedisDao;
 import com.whu.ticket.entity.Event;
 import com.whu.ticket.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class EventServiceImpl implements EventService {
     @Autowired
     EventMapper eventMapper;
 
+    @Autowired
+    EventRedisDao eventRedisDao;
+
     @Override
     public void addEvent(Event event) {
         Event res = eventMapper.selectByName(event.getName());
@@ -22,6 +26,7 @@ public class EventServiceImpl implements EventService {
             throw new RuntimeException("活动已存在");
         }
         eventMapper.insertEvent(event);
+        eventRedisDao.setQuota(event.getId(), event.getQuota());
     }
 
     @Override
