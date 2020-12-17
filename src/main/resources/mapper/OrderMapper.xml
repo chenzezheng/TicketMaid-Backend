@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whu.ticket.dao.OrderMapper">
+    <resultMap id="BaseOrderMap" type="com.whu.ticket.entity.Order">
+        <id column="id" property="id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="event_id" property="event_id"/>
+        <result column="time" property="time"/>
+        <result column="quantity" property="quantity"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="phone" property="phone"/>
+    </resultMap>
+
+    <resultMap id="BaseOrderVOMap" type="com.whu.ticket.vo.OrderVO">
+        <id column="id" property="id"/>
+        <result column="event_name" property="name"/>
+        <result column="event_cover" property="cover"/>
+        <result column="event_price" property="price"/>
+        <result column="quantity" property="quantity"/>
+    </resultMap>
+
+    <select id="countByUserId" resultType="integer">
+        select count(*) from orders
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseOrderVOMap">
+        select o.id, e.name as event_name, e.cover as event_cover, e.price as event_price, o.quantity
+        from orders o, event e
+        where o.user_id = #{userId} and o.event_id = e.id
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="selectByIdAndUserId" resultMap="BaseOrderMap">
+        select * from orders
+        where user_id = #{userId} and id = #{id}
+    </select>
+
+
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into orders(user_id, event_id, time, quantity, name, address, phone)
+        values (#{user_id}, #{event_id}, #{time}, #{quantity}, #{name}, #{address}, #{phone})
+    </insert>
+
+    <delete id="deleteByIdAndUserId">
+        delete from orders
+        where id = #{id} and user_id = #{userId}
+    </delete>
+
+</mapper>
