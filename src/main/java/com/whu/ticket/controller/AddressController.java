@@ -1,11 +1,10 @@
 package com.whu.ticket.controller;
 
 import com.whu.ticket.annotation.UserLogin;
-import com.whu.ticket.pojo.Address;
+import com.whu.ticket.entity.Address;
 import com.whu.ticket.pojo.Result;
 import com.whu.ticket.service.AddressService;
 import com.whu.ticket.util.JwtUtil;
-import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

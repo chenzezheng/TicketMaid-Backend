@@ -1,7 +1,7 @@
 package com.whu.ticket.service.impl;
 
 import com.whu.ticket.dao.EventMapper;
-import com.whu.ticket.pojo.Event;
+import com.whu.ticket.entity.Event;
 import com.whu.ticket.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

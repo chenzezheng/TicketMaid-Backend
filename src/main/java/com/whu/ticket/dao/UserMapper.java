@@ -1,6 +1,6 @@
 package com.whu.ticket.dao;
 
-import com.whu.ticket.pojo.User;
+import com.whu.ticket.entity.User;
 import org.springframework.stereotype.Repository;
 
 @Repository

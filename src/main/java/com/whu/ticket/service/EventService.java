@@ -1,6 +1,6 @@
 package com.whu.ticket.service;
 
-import com.whu.ticket.pojo.Event;
+import com.whu.ticket.entity.Event;
 
 import java.util.Date;
 import java.util.List;

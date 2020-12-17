@@ -1,7 +1,7 @@
 package com.whu.ticket.service.impl;
 
 import com.whu.ticket.dao.AddressMapper;
-import com.whu.ticket.pojo.Address;
+import com.whu.ticket.entity.Address;
 import com.whu.ticket.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

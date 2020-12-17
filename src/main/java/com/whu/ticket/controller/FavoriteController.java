@@ -2,7 +2,7 @@ package com.whu.ticket.controller;
 
 import com.whu.ticket.vo.FavoriteVO;
 import com.whu.ticket.annotation.UserLogin;
-import com.whu.ticket.pojo.Favorite;
+import com.whu.ticket.entity.Favorite;
 import com.whu.ticket.pojo.Result;
 import com.whu.ticket.service.FavoriteService;
 import com.whu.ticket.util.JwtUtil;

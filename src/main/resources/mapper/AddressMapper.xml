@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.whu.ticket.dao.AddressMapper">
-    <resultMap id="BaseAddressMap" type="com.whu.ticket.pojo.Address">
+    <resultMap id="BaseAddressMap" type="com.whu.ticket.entity.Address">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="user_id" property="user_id"/>

@@ -1,7 +1,6 @@
 package com.whu.ticket.service;
 
-import com.whu.ticket.pojo.Address;
-import org.springframework.jdbc.datasource.AbstractDriverBasedDataSource;
+import com.whu.ticket.entity.Address;
 
 import java.util.List;
 

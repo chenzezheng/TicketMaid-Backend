@@ -1,7 +1,7 @@
 package com.whu.ticket.dao;
 
 import com.whu.ticket.vo.FavoriteVO;
-import com.whu.ticket.pojo.Favorite;
+import com.whu.ticket.entity.Favorite;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

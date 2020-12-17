@@ -2,7 +2,7 @@ package com.whu.ticket.service.impl;
 
 import com.whu.ticket.vo.FavoriteVO;
 import com.whu.ticket.dao.FavoriteMapper;
-import com.whu.ticket.pojo.Favorite;
+import com.whu.ticket.entity.Favorite;
 import com.whu.ticket.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

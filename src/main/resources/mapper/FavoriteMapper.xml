@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.whu.ticket.dao.FavoriteMapper">
-    <resultMap id="BaseFavoriteMap" type="com.whu.ticket.pojo.Favorite">
+    <resultMap id="BaseFavoriteMap" type="com.whu.ticket.entity.Favorite">
         <id column="id" property="id"/>
         <result column="user_id" property="user_id"/>
         <result column="event_id" property="event_id"/>

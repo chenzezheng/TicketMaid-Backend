@@ -1,8 +1,7 @@
 package com.whu.ticket.controller;
 
 import com.whu.ticket.annotation.AdminLogin;
-import com.whu.ticket.annotation.UserLogin;
-import com.whu.ticket.pojo.Event;
+import com.whu.ticket.entity.Event;
 import com.whu.ticket.pojo.Result;
 import com.whu.ticket.service.EventService;
 import com.whu.ticket.util.JwtUtil;
