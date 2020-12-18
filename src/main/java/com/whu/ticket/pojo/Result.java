@@ -8,6 +8,5 @@ import lombok.Data;
 public class Result {
     private int code;
     private Object data;
-//    private String token;
     private String desc;
 }

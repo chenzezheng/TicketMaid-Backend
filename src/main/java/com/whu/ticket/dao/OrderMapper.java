@@ -13,4 +13,5 @@ public interface OrderMapper {
     int countByUserId(int userId);
     List<OrderVO> selectByUserId(int userId, int offset, int limit);
     Order selectByIdAndUserId(int id, int userId);
+    Order selectById(int id);
 }

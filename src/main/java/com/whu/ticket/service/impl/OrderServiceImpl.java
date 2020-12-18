@@ -3,7 +3,9 @@ package com.whu.ticket.service.impl;
 import com.whu.ticket.dao.EventMapper;
 import com.whu.ticket.dao.EventRedisDao;
 import com.whu.ticket.dao.OrderMapper;
+import com.whu.ticket.dao.OrderRedisDao;
 import com.whu.ticket.entity.Order;
+import com.whu.ticket.service.DBAccessService;
 import com.whu.ticket.service.OrderService;
 import com.whu.ticket.vo.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,16 @@ public class OrderServiceImpl implements OrderService {
     OrderMapper orderMapper;
 
     @Autowired
+    OrderRedisDao orderRedisDao;
+
+    @Autowired
     EventRedisDao eventRedisDao;
 
     @Autowired
     EventMapper eventMapper;
+
+    @Autowired
+    DBAccessService dbAccessService;
 
     @Override
     public void addOrder(Order order) {
@@ -28,13 +36,19 @@ public class OrderServiceImpl implements OrderService {
         if (quota != null && quota < order.getQuantity()) {
             throw new RuntimeException("名额不足");
         }
-        eventRedisDao.incQuota(order.getEvent_id(), -order.getQuantity());
-        orderMapper.insertOrder(order);
+//        eventRedisDao.incQuota(order.getEvent_id(), -order.getQuantity());
+//        orderMapper.insertOrder(order);
+        orderRedisDao.sendMessage(order);
+        dbAccessService.consumeMessage();
     }
 
     @Override
     public void removeOrder(int id, int userId) {
-        orderMapper.deleteByIdAndUserId(id, userId);
+        Order order = orderMapper.selectById(id);
+        if (order == null) {
+            throw new RuntimeException("订单不存在");
+        }
+        dbAccessService.deleteOrder(order);
     }
 
     @Override

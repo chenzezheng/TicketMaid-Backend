@@ -9,12 +9,18 @@ public class EventRedisDao {
     @Autowired
     RedisUtil redisUtil;
 
+    @Autowired
+    EventMapper eventMapper;
+
     public Integer getQuota(int eventid) {
         String eventstr = "event_" + String.valueOf(eventid);
         if (redisUtil.hasKey(eventstr)) {
             return (Integer) redisUtil.get(eventstr);
+        } else {
+            int quota = eventMapper.selectQuotaById(eventid);
+            setQuota(eventid, quota);
+            return quota;
         }
-        return null;
     }
 
     public boolean setQuota(int eventid, Integer quota) {
@@ -27,5 +33,12 @@ public class EventRedisDao {
         } else {
             redisUtil.decr("event_" + String.valueOf(eventid), -delta);
         }
+    }
+
+    public int consumeQuota(int eventid, int quota) {
+        int rest = getQuota(eventid);
+        if (quota > rest) return rest - quota;
+        incQuota(eventid, -quota);
+        return rest - quota;
     }
 }

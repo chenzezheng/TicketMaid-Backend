@@ -39,6 +39,11 @@
         where user_id = #{userId} and id = #{id}
     </select>
 
+    <select id="selectById" resultMap="BaseOrderMap">
+        select * from orders
+        where id = #{id}
+    </select>
+
 
     <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
         insert into orders(user_id, event_id, time, quantity, name, address, phone)

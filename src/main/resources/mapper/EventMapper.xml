@@ -54,4 +54,15 @@
             price = #{price}
         where id = #{id} and host_id = #{host_id}
     </update>
+
+    <select id="selectQuotaById" resultType="integer">
+        select quota from event
+        where id = #{id}
+    </select>
+
+    <update id="updateQuotaById">
+        update event set
+            quota = #{quota}
+        where id = #{id}
+    </update>
 </mapper>

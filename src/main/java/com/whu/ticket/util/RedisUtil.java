@@ -209,8 +209,23 @@ public class RedisUtil {
      */
     public Object lGetIndex(String key, long index) {
         try {
-            redisTemplate.opsForList().rightPop("test");
             return redisTemplate.opsForList().index(key, index);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 从list取出缓存
+     *
+     * @param key   键
+     * @param timeout 阻塞时间 seconds
+     * @return
+     */
+    public Object lPop(String key, long timeout) {
+        try {
+            return redisTemplate.opsForList().leftPop(key/*, timeout, TimeUnit.SECONDS*/);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
