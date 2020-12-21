@@ -63,7 +63,7 @@ public class EventController {
         event.setPrice(price);
         try {
             eventService.addEvent(event);
-            return new Result(0, null, "添加活动成功");
+            return new Result(0, event, "添加活动成功");
         } catch (Exception e) {
             log.info("addEvent fail");
             return new Result(-1, null, e.getMessage());
@@ -137,7 +137,7 @@ public class EventController {
         newEvent.setPrice(newPrice);
         newEvent.setLocation(newLocation);
         eventService.modifyEvent(newEvent);
-        return new Result(0, null, "修改活动信息成功");
+        return new Result(0, newEvent, "修改活动信息成功");
     }
 
     @AdminLogin
