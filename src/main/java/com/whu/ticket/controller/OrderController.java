@@ -6,6 +6,7 @@ import com.whu.ticket.entity.Order;
 import com.whu.ticket.pojo.Result;
 import com.whu.ticket.service.OrderService;
 import com.whu.ticket.util.JwtUtil;
+import com.whu.ticket.vo.OrderInfo;
 import com.whu.ticket.vo.OrderVO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -95,8 +96,8 @@ public class OrderController {
         String token = request.getHeader("access_token");
         int userId = JwtUtil.getUserID(token);
         int orderId = Integer.parseInt(request.getParameter("id"));
-        Order order = orderService.queryOrderInfo(orderId, userId);
-        return new Result(0, order, "查询订单详情成功");
+        OrderInfo orderInfo = orderService.queryOrderInfo(orderId, userId);
+        return new Result(0, orderInfo, "查询订单详情成功");
     }
 
     @UserLogin

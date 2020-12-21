@@ -7,6 +7,7 @@ import com.whu.ticket.dao.OrderRedisDao;
 import com.whu.ticket.entity.Order;
 import com.whu.ticket.service.DBAccessService;
 import com.whu.ticket.service.OrderService;
+import com.whu.ticket.vo.OrderInfo;
 import com.whu.ticket.vo.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order queryOrderInfo(int id, int userId) {
+    public OrderInfo queryOrderInfo(int id, int userId) {
         return orderMapper.selectByIdAndUserId(id, userId);
     }
 

@@ -1,6 +1,7 @@
 package com.whu.ticket.dao;
 
 import com.whu.ticket.entity.Order;
+import com.whu.ticket.vo.OrderInfo;
 import com.whu.ticket.vo.OrderVO;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,6 @@ public interface OrderMapper {
     void deleteByIdAndUserId(int id, int userId);
     int countByUserId(int userId);
     List<OrderVO> selectByUserId(int userId, int offset, int limit);
-    Order selectByIdAndUserId(int id, int userId);
+    OrderInfo selectByIdAndUserId(int id, int userId);
     Order selectById(int id);
 }

@@ -22,6 +22,19 @@
         <result column="quantity" property="quantity"/>
     </resultMap>
 
+    <resultMap id="BaseOrderInfoMap" type="com.whu.ticket.vo.OrderInfo">
+        <id column="id" property="id"/>
+        <result column="event_name" property="event_name"/>
+        <result column="event_time" property="event_time"/>
+        <result column="event_cover" property="event_cover"/>
+        <result column="event_price" property="event_price"/>
+        <result column="order_quantity" property="order_quantity"/>
+        <result column="order_time" property="order_time"/>
+        <result column="user_name" property="user_name"/>
+        <result column="user_address" property="user_address"/>
+        <result column="user_phone" property="user_phone"/>
+    </resultMap>
+
     <select id="countByUserId" resultType="integer">
         select count(*) from orders
         where user_id = #{userId}
@@ -34,9 +47,10 @@
         limit #{offset}, #{limit}
     </select>
 
-    <select id="selectByIdAndUserId" resultMap="BaseOrderMap">
-        select * from orders
-        where user_id = #{userId} and id = #{id}
+    <select id="selectByIdAndUserId" resultMap="BaseOrderInfoMap">
+        select o.id, e.name as event_name, e.time as event_time, e.cover as event_cover, e.price as event_price, o.quantity as order_quantity, o.time as order_time, o.name as user_name, o.address as user_address, o.phone as user_phone
+        from orders o, event e
+        where o.id = #{id} and o.user_id = #{userId} and o.event_id = e.id
     </select>
 
     <select id="selectById" resultMap="BaseOrderMap">
