@@ -32,10 +32,14 @@ public class DBAccessServiceImpl implements DBAccessService {
         do {
             order = orderRedisDao.getMessage();
             if (order == null) break;
+            String orderToken = "event_" + order.getEvent_id() + "+" + "user_" + order.getUser_id();
             int rest = eventRedisDao.consumeQuota(order.getEvent_id(), order.getQuantity());
             if (rest >= 0) {
+                orderRedisDao.updateOrderStatus(orderToken, 1);
                 orderMapper.insertOrder(order);
                 eventMapper.updateQuotaById(order.getEvent_id(), rest);
+            } else {
+                orderRedisDao.updateOrderStatus(orderToken, 0);
             }
         } while (true);
     }

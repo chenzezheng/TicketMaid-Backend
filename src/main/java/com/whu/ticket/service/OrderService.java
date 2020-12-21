@@ -11,4 +11,5 @@ public interface OrderService {
     public int queryPageNums(int userId, int pageSize);
     public List<OrderVO> queryOrder(int userId, int pageNo, int pageSize);
     public Order queryOrderInfo(int id, int userId);
+    public boolean queryOrderStatus(int userId, int eventId);
 }

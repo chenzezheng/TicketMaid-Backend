@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
-    private  static final Logger log = LoggerFactory.getLogger(OrderController.class);
+    private static final Logger log = LoggerFactory.getLogger(OrderController.class);
 
     @Autowired
     OrderService orderService;
@@ -51,7 +51,7 @@ public class OrderController {
 
         try {
             orderService.addOrder(order);
-            return new Result(0, order, "添加订单成功");
+            return new Result(0, order, "排队中");
         } catch (Exception e) {
 //            e.printStackTrace();
             return new Result(-1, null, e.getMessage());
@@ -97,5 +97,20 @@ public class OrderController {
         int orderId = Integer.parseInt(request.getParameter("id"));
         Order order = orderService.queryOrderInfo(orderId, userId);
         return new Result(0, order, "查询订单详情成功");
+    }
+
+    @UserLogin
+    @GetMapping("/check")
+    public Result checkOrderStatus(HttpServletRequest request) {
+        String token = request.getHeader("access_token");
+        int userId = JwtUtil.getUserID(token);
+        int eventId = Integer.parseInt(request.getParameter("event_id"));
+        try {
+            boolean ret = orderService.queryOrderStatus(userId, eventId);
+            if (ret) return new Result(1, null, "购买成功");
+            else return new Result(0, null, "排队中");
+        } catch (Exception e) {
+            return new Result(-1, null, e.getMessage());
+        }
     }
 }

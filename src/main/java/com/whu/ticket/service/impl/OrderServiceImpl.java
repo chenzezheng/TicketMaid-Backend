@@ -70,4 +70,10 @@ public class OrderServiceImpl implements OrderService {
     public Order queryOrderInfo(int id, int userId) {
         return orderMapper.selectByIdAndUserId(id, userId);
     }
+
+    @Override
+    public boolean queryOrderStatus(int userId, int eventId) {
+        String orderToken = "event_" + eventId + "+" + "user_" + userId;
+        return orderRedisDao.popOrderStatus(orderToken);
+    }
 }

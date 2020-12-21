@@ -22,8 +22,8 @@ public class TokenController {
         try {
             int userId = JwtUtil.getUserID(refresh_token);
             final long seven_days = 604800000;
-            final long two_hours = 7200000;
-            String new_access_token = JwtUtil.createToken(String.valueOf(userId), two_hours, "access");
+            final long one_day = 86400000;
+            String new_access_token = JwtUtil.createToken(String.valueOf(userId), one_day, "access");
             String new_refresh_token = JwtUtil.createToken(String.valueOf(userId), seven_days, "refresh");
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("access_token", new_access_token);
