@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/favorite")
 public class FavoriteController {

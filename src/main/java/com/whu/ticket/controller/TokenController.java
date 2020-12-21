@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.whu.ticket.annotation.RefreshToken;
 import com.whu.ticket.pojo.Result;
 import com.whu.ticket.util.JwtUtil;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/token")
 public class TokenController {

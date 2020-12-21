@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {

@@ -16,7 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/event")
 public class EventController {
