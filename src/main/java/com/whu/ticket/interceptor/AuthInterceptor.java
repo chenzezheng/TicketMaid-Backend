@@ -3,9 +3,12 @@ package com.whu.ticket.interceptor;
 import com.whu.ticket.annotation.AdminLogin;
 import com.whu.ticket.annotation.RefreshToken;
 import com.whu.ticket.annotation.UserLogin;
+import com.whu.ticket.controller.OrderController;
 import com.whu.ticket.service.UserService;
 import com.whu.ticket.util.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.web.method.HandlerMethod;
@@ -17,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 public class AuthInterceptor implements HandlerInterceptor {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthInterceptor.class);
 
     @Autowired
     UserService userService;
@@ -39,6 +44,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//        log.info("method:{}", request.getMethod());
         String access_token = request.getHeader("access_token");
         String refresh_token = request.getHeader("refresh_token");
         if (!(handler instanceof HandlerMethod)) {
