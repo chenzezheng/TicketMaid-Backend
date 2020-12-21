@@ -44,7 +44,7 @@
 
     <delete id="deleteByIdAndUserId">
         delete from favorite
-        where id = #{id} and user_id = #{user_id}
+        where id = #{id} and user_id = #{userId}
     </delete>
 
 </mapper>
