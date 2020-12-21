@@ -39,8 +39,8 @@
 
     <select id="selectAllEvent" resultMap="BaseEventMap">
         select * from event
-        limit #{offset},#{limit}
         order by time ASC
+        limit #{offset},#{limit}
     </select>
 
     <select id="selectByHostID" resultMap="BaseEventMap">
