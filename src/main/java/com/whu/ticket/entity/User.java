@@ -14,7 +14,7 @@ public class User {
     private int is_admin;
 
     public UserVO toValueObject() {
-        UserVO vo = new UserVO(id, username, nickname, sex, email);
+        UserVO vo = new UserVO(id, username, nickname, sex, email, is_admin);
         return vo;
     }
 }

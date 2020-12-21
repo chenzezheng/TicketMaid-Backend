@@ -11,4 +11,5 @@ public class UserVO {
     private String nickname;
     private int sex;
     private String email;
+    private int is_admin;
 }
