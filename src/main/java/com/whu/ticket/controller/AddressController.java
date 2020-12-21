@@ -92,6 +92,6 @@ public class AddressController {
         newAddress.setPhone(phone);
         newAddress.setUser_id(user_id);
         addressService.modifyAddress(newAddress);
-        return new Result(0, null, "修改成功");
+        return new Result(0, newAddress, "修改成功");
     }
 }
