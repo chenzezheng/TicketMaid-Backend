@@ -58,4 +58,9 @@ public class EventServiceImpl implements EventService {
     public List<Event> queryAdminEvent(int host_id, int pageNo, int pageSize) {
         return eventMapper.selectByHostID(host_id,(pageNo-1)*pageSize,pageSize);
     }
+
+    @Override
+    public int countEvent() {
+        return eventMapper.countEvent();
+    }
 }

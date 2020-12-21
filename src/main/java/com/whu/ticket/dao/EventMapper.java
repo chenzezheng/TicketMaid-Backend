@@ -17,4 +17,5 @@ public interface EventMapper {
     List<Event> selectByHostID(int host_id,int offset,int limit);
     int selectQuotaById(int id);
     void updateQuotaById(int id, int quota);
+    int countEvent();
 }

@@ -15,25 +15,26 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/event")
 public class EventController {
-    private  static final Logger log = LoggerFactory.getLogger(EventController.class);
+    private static final Logger log = LoggerFactory.getLogger(EventController.class);
 
     @Autowired
     EventService eventService;
 
     private Date parseTime(String strTime) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(StringUtils.isBlank(strTime)) return null;
+        if (StringUtils.isBlank(strTime)) return null;
         else return sdf.parse(strTime);
     }
 
     @AdminLogin
     @PostMapping("/add")
-    public Result addEvent(HttpServletRequest request)  {
+    public Result addEvent(HttpServletRequest request) {
         String name = request.getParameter("name");
         String token = request.getHeader("access_token");
         int host_id = JwtUtil.getUserID(token);
@@ -60,12 +61,12 @@ public class EventController {
         event.setInfo(info);
         event.setCover(cover);
         event.setPrice(price);
-        try{
+        try {
             eventService.addEvent(event);
-            return new Result(0,null,"添加活动成功");
-        }catch(Exception e){
+            return new Result(0, null, "添加活动成功");
+        } catch (Exception e) {
             log.info("addEvent fail");
-            return new Result(-1,null,e.getMessage());
+            return new Result(-1, null, e.getMessage());
         }
     }
 
@@ -76,7 +77,7 @@ public class EventController {
         String token = request.getHeader("access_token");
         int host_id = JwtUtil.getUserID(token);
         try {
-            eventService.deleteEvent(id,host_id);
+            eventService.deleteEvent(id, host_id);
             return new Result(0, null, "删除活动成功");
         } catch (Exception e) {
             log.info("deleteEvent fail");
@@ -84,14 +85,19 @@ public class EventController {
         }
     }
 
+    @GetMapping("/count")
+    public Result countEvent(HttpServletRequest request) {
+        int tot = eventService.countEvent();
+        return new Result(0, tot, "计数成功");
+    }
 
     @GetMapping("/query")
-    public Result queryEvent(HttpServletRequest request){
+    public Result queryEvent(HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         Date time = new Date();
-        eventService.queryEvent(time,pageNo,pageSize);
-        return new Result(0,eventService.queryEvent(time,pageNo,pageSize),"查询成功");
+        List<Event> events = eventService.queryEvent(time, pageNo, pageSize);
+        return new Result(0, events, "查询成功");
     }
 
     @AdminLogin
@@ -124,17 +130,17 @@ public class EventController {
         newEvent.setPrice(newPrice);
         newEvent.setLocation(newLocation);
         eventService.modifyEvent(newEvent);
-        return new Result(0,null,"修改活动信息成功");
+        return new Result(0, null, "修改活动信息成功");
     }
 
     @AdminLogin
-    @GetMapping("/AdminQuery")
-    public Result queryAdminEvent(HttpServletRequest request){
+    @GetMapping("/adminquery")
+    public Result queryAdminEvent(HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         String token = request.getHeader("access_token");
         int host_id = JwtUtil.getUserID(token);
-        eventService.queryAdminEvent(host_id,pageNo,pageSize);
-        return new Result(0,eventService.queryAdminEvent(host_id,pageNo,pageSize),"查询成功");
+        eventService.queryAdminEvent(host_id, pageNo, pageSize);
+        return new Result(0, eventService.queryAdminEvent(host_id, pageNo, pageSize), "查询成功");
     }
 }
