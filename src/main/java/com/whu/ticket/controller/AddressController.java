@@ -37,7 +37,7 @@ public class AddressController {
         Taddress.setPhone(phone);
         try {
             addressService.addAddress(Taddress);
-            return new Result(0, null, "加入地址信息成功");
+            return new Result(0, Taddress, "加入地址信息成功");
         } catch (Exception e) {
             log.info("add fail");
             return new Result(-1, null, e.getMessage());
