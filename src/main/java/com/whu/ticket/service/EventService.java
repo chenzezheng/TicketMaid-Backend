@@ -11,5 +11,6 @@ public interface EventService {
     public List<Event> queryEvent(Date time,int pageNo,int pageSize);
     public void modifyEvent(Event event);
     public List<Event> queryAdminEvent(int host_id,int pageNo,int pageSize);
+    public Event searchEvent(String keyword);
     public int countEvent();
 }

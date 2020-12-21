@@ -32,10 +32,15 @@
         select * from event where id = #{id}
     </select>
 
+    <select id="selectByKeyword" resultMap="BaseEventMap">
+        select * from event
+        where name = #{keyword}
+    </select>
+
     <select id="selectAllEvent" resultMap="BaseEventMap">
         select * from event
-        where time > #{time}
         limit #{offset},#{limit}
+        order by time ASC
     </select>
 
     <select id="selectByHostID" resultMap="BaseEventMap">

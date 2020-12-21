@@ -100,6 +100,13 @@ public class EventController {
         return new Result(0, events, "查询成功");
     }
 
+    @GetMapping("/search")
+    public Result searchEvent(HttpServletRequest request) {
+        String keyword = request.getParameter("keyword");
+        Event event = eventService.searchEvent(keyword);
+        return new Result(0, event, "查询成功");
+    }
+
     @AdminLogin
     @PutMapping("/modify")
     public Result modifyEventProfile(HttpServletRequest request) {

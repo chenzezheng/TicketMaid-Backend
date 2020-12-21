@@ -60,6 +60,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public Event searchEvent(String keyword) {
+        return eventMapper.selectByKeyword(keyword);
+    }
+
+    @Override
     public int countEvent() {
         return eventMapper.countEvent();
     }

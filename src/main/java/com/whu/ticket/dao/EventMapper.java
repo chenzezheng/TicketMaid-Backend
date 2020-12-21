@@ -11,6 +11,7 @@ public interface EventMapper {
     void insertEvent(Event event);
     void deleteEvent(int id,int host_id);
     Event selectByName(String name);
+    Event selectByKeyword(String keyword);
     List<Event> selectAllEvent(Date time,int offset,int limit);
     Event selectById(int id);
     void updateEventProfile(Event event);
