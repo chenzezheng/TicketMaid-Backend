@@ -36,8 +36,6 @@ public class OrderServiceImpl implements OrderService {
         if (quota != null && quota < order.getQuantity()) {
             throw new RuntimeException("名额不足");
         }
-//        eventRedisDao.incQuota(order.getEvent_id(), -order.getQuantity());
-//        orderMapper.insertOrder(order);
         orderRedisDao.sendMessage(order);
         dbAccessService.consumeMessage();
     }
