@@ -44,7 +44,9 @@
         select o.id, e.name as event_name, e.cover as event_cover, e.price as event_price, o.quantity
         from orders o, event e
         where o.user_id = #{userId} and o.event_id = e.id
-        limit #{offset}, #{limit}
+        <if test="limit > 0">
+            limit #{offset}, #{limit}
+        </if>
     </select>
 
     <select id="selectByIdAndUserId" resultMap="BaseOrderInfoMap">

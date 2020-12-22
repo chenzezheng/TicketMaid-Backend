@@ -6,6 +6,7 @@ import com.whu.ticket.entity.Favorite;
 import com.whu.ticket.pojo.Result;
 import com.whu.ticket.service.FavoriteService;
 import com.whu.ticket.util.JwtUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,17 @@ public class FavoriteController {
     public Result queryFavorites(HttpServletRequest request) {
         String token = request.getHeader("access_token");
         int userId = JwtUtil.getUserID(token);
-        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
-        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        if (pageNo <= 0 || pageSize <= 0) {
-            return new Result(-1, null, "参数错误");
+        int pageNo = 0;
+        int pageSize = 0;
+        if (!StringUtils.isBlank(request.getParameter("pageNo"))) {
+            pageNo = Integer.parseInt(request.getParameter("pageNo"));
         }
+        if (!StringUtils.isBlank(request.getParameter("pageSize"))) {
+            pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        }
+//        if (pageNo <= 0 || pageSize <= 0) {
+//            return new Result(-1, null, "参数错误");
+//        }
         List<FavoriteVO> favorites = favoriteService.queryFavorites(userId, pageNo, pageSize);
         return new Result(0, favorites, "查询收藏成功");
     }

@@ -84,8 +84,14 @@ public class OrderController {
     public Result queryOrder(HttpServletRequest request) {
         String token = request.getHeader("access_token");
         int userId = JwtUtil.getUserID(token);
-        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
-        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        int pageNo = 0;
+        int pageSize = 0;
+        if (!StringUtils.isBlank(request.getParameter("pageNo"))) {
+            pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        }
+        if (!StringUtils.isBlank(request.getParameter("pageSize"))) {
+            pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        }
         List<OrderVO> orders = orderService.queryOrder(userId, pageNo, pageSize);
         return new Result(0, orders, "查询订单列表成功");
     }

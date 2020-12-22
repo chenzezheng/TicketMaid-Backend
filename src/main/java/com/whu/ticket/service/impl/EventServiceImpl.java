@@ -60,7 +60,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event searchEvent(String keyword) {
+    public List<Event> searchEvent(String keyword) {
         return eventMapper.selectByKeyword(keyword);
     }
 

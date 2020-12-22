@@ -24,7 +24,7 @@
         select * from address
         where user_id = #{user_id}
         <if test="limit > 0">
-            limit #{offset},#{limit}
+            limit #{offset}, #{limit}
         </if>
     </select>
 

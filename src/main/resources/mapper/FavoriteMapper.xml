@@ -29,7 +29,9 @@
         select f.id, f.user_id, f.event_id, f.time, e.name, e.price, e.cover
         from favorite f, event e
         where f.user_id = #{userId} and f.event_id = e.id
-        limit #{offset}, #{limit}
+        <if test="limit > 0">
+            limit #{offset}, #{limit}
+        </if>
     </select>
 
     <select id="selectByUserIdAndEventId" resultMap="BaseFavoriteMap">
