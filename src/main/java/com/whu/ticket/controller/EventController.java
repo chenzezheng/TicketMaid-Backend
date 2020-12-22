@@ -103,8 +103,8 @@ public class EventController {
     @GetMapping("/search")
     public Result searchEvent(HttpServletRequest request) {
         String keyword = request.getParameter("keyword");
-        Event event = eventService.searchEvent(keyword);
-        return new Result(0, event, "查询成功");
+        List<Event> events = eventService.searchEvent(keyword);
+        return new Result(0, events, "查询成功");
     }
 
     @AdminLogin
