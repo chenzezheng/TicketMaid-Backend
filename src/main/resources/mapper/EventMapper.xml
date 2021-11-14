@@ -34,7 +34,7 @@
 
     <select id="selectByKeyword" resultMap="BaseEventMap">
         select * from event
-        where name = #{keyword}
+        where name like binary "%"#{keyword}"%"
     </select>
 
     <select id="selectAllEvent" resultMap="BaseEventMap">
