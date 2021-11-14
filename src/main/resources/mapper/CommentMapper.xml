@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whu.ticket.dao.CommentMapper">
+    <resultMap id="BaseCommentVOMap" type="com.whu.ticket.vo.CommentVO">
+        <id column="id" property="id"/>
+        <result column="nickname" property="nickname"/>
+        <result column="time" property="time"/>
+        <result column="stars" property="stars"/>
+        <result column="content" property="content"/>
+    </resultMap>
+
+    <insert id="insertComment" useGeneratedKeys="true" keyProperty="id">
+        insert into comment(event_id,user_id,time,stars,content)
+        values(#{eventId},#{userId},#{time},#{stars},#{content})
+    </insert>
+
+    <select id="countComment" resultType="integer">
+        select count(*) from comment where event_id = #{eventId}
+    </select>
+
+    <select id="selectByEventId" resultMap="BaseCommentVOMap">
+        select a.id id, b.nickname nickname, a.time time, a.stars stars, a.content content
+        from comment a, user b
+        where a.user_id = b.id and a.event_id = #{eventId}
+        order by a.time desc
+        limit #{offset}, #{limit}
+    </select>
+</mapper>

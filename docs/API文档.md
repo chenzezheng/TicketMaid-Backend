@@ -1078,4 +1078,94 @@ ___
   }
   ```
 
-  
+
+
+
+## 评论
+
+### 查询评论
+
+- URL
+
+  > `comment/query`
+
+- 请求方式
+
+  > GET
+
+- 参数
+
+  ```json
+  {
+      "eventId": "10",		// 要查询的活动id
+      "pageNo": 1,			// 页码
+      "pageSize": 10			// 页大小
+  }
+  ```
+
+- 返回示例
+
+  ```json
+  {
+      "code": 0,
+      "data": {
+          "total": 2,			// 当前活动下的评论总数
+          "comments": [
+              {
+                  "id": 2,	// 评论id
+                  "nickname": "YJB",	// 用户昵称
+                  "time": "2021-11-14T18:41:53.000+00:00",
+                  "stars": 4,
+                  "content": "希望下次能办的更好！"
+              },
+              {
+                  "id": 1,
+                  "nickname": "YJB",
+                  "time": "2021-11-13T10:11:09.000+00:00",
+                  "stars": 3,
+                  "content": "非常不错"
+              }
+          ]
+      },
+      "desc": "查询成功"
+  }
+  ```
+
+### 添加评论
+
+- URL
+
+  > `comment/add`
+
+- 请求头
+
+  ```json
+  {
+      "access_token": "xxxxxxxx"
+  }
+  ```
+
+- 请求方式
+
+  > POST
+
+- 参数
+
+  ```json
+  {
+      "eventId": "10",		// 要查询的活动id
+      "stars": 1,				// 评分
+      "content": "很好的活动呢"	// 评论内容（可空）
+  }
+  ```
+
+- 返回示例
+
+  ```json
+  {
+      "code": 0,
+      "data": null,
+      "desc": "评论成功"
+  }
+  ```
+
